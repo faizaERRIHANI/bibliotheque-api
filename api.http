@@ -1,0 +1,16 @@
+### GET all
+GET http://localhost:3000/livres
+
+### POST livre (WITH KEY)
+POST http://localhost:3000/livres
+Content-Type: application/json
+X-API-Key: monSecretDev123
+
+{
+  "titre": "Test",
+  "auteurId": 1,
+  "annee": 2024
+}
+
+### GET livres auteur
+GET http://localhost:3000/livres/auteur/1
