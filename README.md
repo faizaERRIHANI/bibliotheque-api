@@ -7,7 +7,6 @@ API REST développée avec Node.js et Express pour gérer une bibliothèque (liv
 ## 📁 Structure du projet
 ```
 
-
 bibliotheque-api/
 ├── index.js
 ├── package.json
@@ -66,6 +65,9 @@ Authentification API Key
 Relation auteurs ↔ livres
 Pagination
 Gestion des erreurs
-👨‍💻 Auteur
 
-Faiza Errihani
+## 👩‍💻 Auteure
+**Faiza Errihani**
+- GitHub : [@faizaERRIHANI](https://github.com/faizaERRIHANI)
+- Email : fa_errihani@etu.enset-media.ac.ma
+- École : ENSET 
