@@ -1,44 +1,59 @@
 // file: index.js
 
+const express = require("express");
 require("dotenv").config();
 
-const express = require("express");
-const app = express();
-
-const livresRoutes = require("./routes/livres");
+// 🔥 FIX HERE
+const { router: livresRoutes } = require("./routes/livres");
 const { router: auteursRoutes } = require("./routes/auteurs");
 
 const logger = require("./middlewares/logger");
 const verifierApiKey = require("./middlewares/auth");
 
+const app = express();
+
 app.use(express.json());
 app.use(logger);
 
-// protect POST PUT DELETE
-app.use((req, res, next) => {
-  if (["POST", "PUT", "DELETE"].includes(req.method)) {
-    return verifierApiKey(req, res, next);
-  }
-  next();
-});
+// 🔐 Auth for livres
+app.use(
+  "/livres",
+  (req, res, next) => {
+    if (["POST", "PUT", "DELETE"].includes(req.method)) {
+      return verifierApiKey(req, res, next);
+    }
+    next();
+  },
+  livresRoutes
+);
 
-app.use("/livres", livresRoutes);
-app.use("/auteurs", auteursRoutes);
+// 🔐 Auth for auteurs (only POST)
+app.use(
+  "/auteurs",
+  (req, res, next) => {
+    if (["POST"].includes(req.method)) {
+      return verifierApiKey(req, res, next);
+    }
+    next();
+  },
+  auteursRoutes
+);
 
-app.get("/", (req, res) => {
-  res.send("API Bibliothèque OK");
-});
-
-// 404
+// ❗ Route not found
 app.use((req, res) => {
   res.status(404).json({ erreur: "Route non trouvée" });
 });
 
-// error handler
+// ✅ GLOBAL ERROR HANDLER (IMPORTANT)
 app.use((err, req, res, next) => {
-  res.status(500).json({ erreur: "Erreur serveur" });
+  console.error(err.stack); // why: debug serveur
+  res.status(err.status || 500).json({
+    erreur: err.message || "Erreur interne du serveur",
+  });
 });
 
-app.listen(3000, () => {
-  console.log("API sur http://localhost:3000");
+const PORT = 3000;
+
+app.listen(PORT, () => {
+  console.log(`API sur http://localhost:${PORT}`);
 });
