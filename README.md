@@ -5,6 +5,7 @@ API REST développée avec Node.js et Express pour gérer une bibliothèque (liv
 ---
 
 ## 📁 Structure du projet
+```
 
 
 bibliotheque-api/
@@ -19,7 +20,7 @@ bibliotheque-api/
 ├── .env
 ├── .gitignore
 └── api.http
-
+```
 
 ---
 
